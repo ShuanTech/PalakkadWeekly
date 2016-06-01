@@ -1,0 +1,119 @@
+<resources>
+    <string name="app_name">Palakkad Weekly</string>
+    <string name="hello">Hello World</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+
+    <string name="apiKey">AIzaSyBJi29hU2SrBIhaX4gerUX5hwqDJ_C_Pbc</string>
+    <string name="app_url"></string>
+
+    <string name="drawr_right" />
+    <string name="error_player">Error</string>
+
+    <string name="video_list_title">Video Title</string>
+
+    <string-array name="draweMenu">
+        <item>Menu-1</item>
+        <item>Menu-2</item>
+        <item>Menu-3</item>
+        <item>Menu-4</item>
+        <item>Menu-5</item>
+    </string-array>
+
+
+    <string-array name="main_menu">
+        <item>HOME</item>
+        <item>NATTU VARTHA</item>
+        <item>DIRECTORY</item>
+        <!--<item>SHOP</item>-->
+        <item>BUS TIMINGS</item>
+    </string-array>
+
+    <string-array name="left_drawer">
+        <item>Login</item>
+        <item>Feature</item>
+        <item>App Language</item>
+        <item>Contact Us</item>
+        <item>Recommend the App</item>
+        <item>Copy the App url</item>
+        <item>Setting</item>
+    </string-array>
+
+    <string-array name="right_menu">
+        <!--<item>Directory</item>-->
+        <item>Bussiness</item>
+        <item>Sports</item>
+        <item>Articles</item>
+        <item>Astrology</item>
+        <item>Automobiles</item>
+        <item>Charity Inspiration</item>
+        <item>Classified</item>
+        <item>Crime</item>
+        <item>Editorial</item>
+        <item>Entertainment</item>
+        <item>Food</item>
+        <item>Health</item>
+        <item>Lifestyle</item>
+        <item>Movies</item>
+        <item>Musics</item>
+        <item>Politics</item>
+        <item>Pravasi</item>
+        <item>Technology</item>
+        <item>Travel and Tour</item>
+        <item>Government News</item>
+        <item>My Snaps</item>
+        <item>My Videos</item>
+        <item>Obituaries</item>
+    </string-array>
+
+    <string-array name="dropDown">
+        <item>Nattu Vartha</item>
+        <item>Kerala</item>
+        <item>India</item>
+        <item>World</item>
+    </string-array>
+
+    <string name="news">News</string>
+
+    <string name="signIn">Sign In</string>
+    <string name="applang">App Language</string>
+    <string name="Edition">Edition</string>
+    <string name="edtlang">Edition Language</string>
+    <string name="notify">Notification</string>
+    <string name="fet">Features</string>
+    <string name="rcmdapp">Recommend the App</string>
+    <string name="cpyurl">Copy the App url</string>
+    <string name="abtus">About Us</string>
+    <string name="sting">Setting</string>
+
+
+    <string-array name="places">
+        <item>Palakkad</item>
+        <item>Pattambi</item>
+        <item>Shornur</item>
+        <item>Ottappalam</item>
+        <item>Kongad</item>
+        <item>Mannarkkad</item>
+        <item>Malampuzha</item>
+        <item>Tarur</item>
+        <item>Chittur</item>
+        <item>Nemmara</item>
+        <item>Alathur</item>
+    </string-array>
+
+    <string name="palakkad">Palakkad</string>
+
+    <string name="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
+</resources>

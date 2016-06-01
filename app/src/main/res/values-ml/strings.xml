@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">പാലക്കാട്‌ വീക്കിലി </string>
+    <string name="hello">ഹലോ വേൾഡ്</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="apiKey">AIzaSyBJi29hU2SrBIhaX4gerUX5hwqDJ_C_Pbc</string>
+    <string name="app_url">https://play.google.com/store/apps/details?id=com.shuantech.portal</string>
+
+
+    <string name="drawr_right" />
+    <string name="error_player">Error</string>
+
+    <string name="video_list_title">Video Title</string>
+
+    <string-array name="draweMenu">
+        <item>Menu-1</item>
+        <item>Menu-2</item>
+        <item>Menu-3</item>
+        <item>Menu-4</item>
+        <item>Menu-5</item>
+    </string-array>
+
+        <string-array name="main_menu">
+            <item>ഹോം</item>
+            <item>നാട്ടുവാർത്ത</item>
+            <item>ഡയറക്‌ടറി</item>
+            <!---<item>ഷോപ്പ്</item>-->
+            <item>ബസ്സ് സമയം</item>
+        </string-array>
+
+    <string-array name="dropDown">
+        <item>നാട്ടുവാർത്ത</item>
+        <item>കേരളം</item>
+        <item>ഇന്ത്യ</item>
+        <item>ലോകം</item>
+    </string-array>
+    <string name="news">വാർത്ത</string>
+
+    <string name="signIn">സൈൻ  ഇൻ</string>
+    <string name="applang">ആപ്ലിക്കേഷൻ ഭാഷ</string>
+    <string name="Edition">എഡിഷൻ </string>
+    <string name="edtlang">എഡിഷൻ ഭാഷ</string>
+    <string name="notify">അറിയിപ്പുകൾ</string>
+    <string name="fet">ഫീച്ചറുകൾ</string>
+    <string name="rcmdapp">ആപ്ലിക്കേഷൻ ശുബാർഷ</string>
+    <string name="cpyurl">കോപ്പി ദി ആപ്പ് യൂ ആർ എൽ</string>
+    <string name="abtus">ഞങ്ങളേക്കുറിച്ച്</string>
+    <string name="sting">സെറ്റിംഗ്സ്</string>
+
+    <string-array name="left_drawer">
+        <item>Login</item>
+        <item>Feature</item>
+        <item>App Language</item>
+        <item>Contact Us</item>
+        <item>Recommend the App</item>
+        <item>Copy the App url</item>
+        <item>Setting</item>
+    </string-array>
+
+    <string-array name="right_menu">
+        <!--<item>Directory</item>-->
+        <item>വാണിജ്യം</item>
+        <item>കായികം</item>
+        <item>ആർട്ടിക്കിൾ</item>
+        <item>ജ്യോതിഷശാസ്ത്രം</item>
+        <item>മോട്ടോര്‍ വണ്ടി</item>
+        <item>ധര്‍മ്മസ്ഥാപനം</item>
+        <item>ക്ലാസിഫൈഡ്</item>
+        <item>കുറ്റകൃത്യം</item>
+        <item>എഡിറ്റോറീൽ</item>
+        <item>വിനോദം</item>
+        <item>ആഹാരം</item>
+        <item>ആരോഗ്യം</item>
+        <item>ജീവിതശൈലി</item>
+        <item>ചലച്ചിത്രങ്ങള്‍</item>
+        <item>സംഗീതം</item>
+        <item>രാഷ്ട്രീയം</item>
+        <item>പ്രവാസി</item>
+        <item>ടെക്നോളജി</item>
+        <item>ട്രാവൽ ആന്റ് ടൂർ</item>
+        <item>സർക്കാർ</item>
+        <item>ചിത്രം</item>
+        <item>വീഡിയോ</item>
+        <item>മരണം</item>
+    </string-array>
+
+    <string-array name="places">
+        <item>പാലക്കാട്‌</item>
+        <item>പട്ടാമ്പി</item>
+        <item>ഷൊറണൂർ</item>
+        <item>ഒറ്റപ്പാലം</item>
+        <item>കോങ്ങാട്</item>
+        <item>മണ്ണാർക്കാട്</item>
+        <item>മലമ്പുഴ</item>
+        <item>തരൂർ</item>
+        <item>ചിറ്റൂർ</item>
+        <item>നെന്മാറ</item>
+        <item>ആലത്തൂർ</item>
+    </string-array>
+
+    <string name="palakkad">പാലക്കാട്‌</string>
+
+     <string name="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
+
+</resources>

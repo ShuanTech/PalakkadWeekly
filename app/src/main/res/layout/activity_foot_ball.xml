@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.shuantech.portal.Activities.FootBallActivity"
+    android:background="#fff0f0f0">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <!--<LinearLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:background="@color/colorPrimary">
+
+        <com.shuantech.portal.tab.SlidingTab
+            android:id="@+id/tab"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:defaultTabTextColor="@color/colorAccent"
+            app:tabTextHorizontalPadding="18dp"
+            app:dividerColor="#00000000"
+            app:dividerThickness="0dp"
+            app:indicatorColor="#33000000"
+            app:indicatorCornerRadius="18dp"
+            app:indicatorInterpolation="smart"
+            app:indicatorGravity="center"
+            app:indicatorThickness="36dp"
+            app:underlineColor="#00000000"
+            app:underlineThickness="0dp" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/header" />-->
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
+        android:layout_margin="5.0dip"
+        android:clickable="true"
+        android:columnWidth="100.0dip"
+        android:drawSelectorOnTop="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5.0dip" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

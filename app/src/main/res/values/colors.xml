@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <color name="colorPrimary">#FF5722</color>
+        <color name="colorPrimaryDark">#E64A19</color>
+        <color name="colorAccent">#757575</color>
+        <color name="textColor">#FFFFFF</color>
+        <color name="text_enabled">#FFFFFFFF</color>
+        <color name="text_disabled">#4DFFFFFF</color>
+        <color name="btnColor">#ff333333</color>
+        <color name="purple">#ff673ab7</color>
+        <color name="purpleDark">#ff512da8</color>
+        <color name="transparent_color">#95000000</color>
+        <color name="blue">#ff00abea</color>
+    </resources>
+
+
