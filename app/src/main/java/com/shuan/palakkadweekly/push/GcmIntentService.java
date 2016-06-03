@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.shuan.palakkadweekly.Activities.NewsReadActivity;
+import com.shuan.palakkadweekly.Main;
 import com.shuan.palakkadweekly.R;
 
 
@@ -49,7 +50,7 @@ public class GcmIntentService extends IntentService {
 
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, NewsReadActivity.class);
+        Intent intent = new Intent(this, Main.class);
         intent.putExtra("news", msg);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);

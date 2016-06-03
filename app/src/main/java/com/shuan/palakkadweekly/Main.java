@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -22,10 +23,12 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.shuan.palakkadweekly.Fragments.BusTiming;
 import com.shuan.palakkadweekly.Fragments.DirectoryFragment;
 import com.shuan.palakkadweekly.Fragments.HomeFragment;
 import com.shuan.palakkadweekly.Fragments.NattuVarthaFragment;
+import com.shuan.palakkadweekly.Fragments.SportsFragment;
 import com.shuan.palakkadweekly.Utils.Common;
 import com.shuan.palakkadweekly.drawer.LeftNavigationDrawer;
 import com.shuan.palakkadweekly.drawer.RightNavigationDrawer;
@@ -54,7 +57,6 @@ public class Main extends AppCompatActivity {
     private Handler mHandler;
     private AlertDialog.Builder builder;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = getApplicationContext();
@@ -62,16 +64,34 @@ public class Main extends AppCompatActivity {
         if (mApp.getSharedPreferences().getString("lang", "") != null) {
             changeLang(mApp.getSharedPreferences().getString("lang", ""));
         }
+
+        if (mApp.getSharedPreferences().getString(Common.Version, "").equalsIgnoreCase("true")) {
+            builder = new AlertDialog.Builder(Main.this)
+                    .setTitle("Update")
+                    .setMessage("New Version of Palakkad Weekly Available.Do you want Update?");
+            builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            }).setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent in = new Intent("android.intent.action.VIEW")
+                            .setData(Uri.parse("market://details?id=com.shuan.palakkadweekly"));
+                    startActivity(in);
+                    dialog.cancel();
+                }
+            }).show();
+
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-
-
-
-
 
 
         mDrawerParentLayout = (FrameLayout) findViewById(R.id.main_activity_root);
@@ -119,11 +139,7 @@ public class Main extends AppCompatActivity {
         }, 5000);*/
 
 
-
-
-
     }
-
 
 
     private void alertTag() {
@@ -220,15 +236,16 @@ public class Main extends AppCompatActivity {
                     f = new NattuVarthaFragment();
                     break;
                 case 2:
-                    f = new DirectoryFragment();
+                    f = new SportsFragment();
                     break;
                 case 3:
+                    f = new DirectoryFragment();
+                    break;
+                case 4:
                     f = new BusTiming();
                     //f = new ShopFragment();
                     break;
-                case 4:
-                    //f = new BusTiming();
-                    break;
+
             }
 
             return f;

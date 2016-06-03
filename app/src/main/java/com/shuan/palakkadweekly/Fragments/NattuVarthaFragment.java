@@ -112,7 +112,7 @@ public class NattuVarthaFragment extends Fragment {
                             img="http://www.mannarkkadweekly.com/en/adminpanel/news_photos/"+child.optString("image");
                         }*/
                         img="http://www.palakkadweekly.com/adminpanel/news_photos/"+child.optString("image");
-                        homeList.add(new HomeList(id,heading,img));
+                        //homeList.add(new HomeList(id,heading,img));
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

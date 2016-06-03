@@ -110,7 +110,7 @@ public class DirectoryFragment extends Fragment {
 
                         img="http://www.palakkadweekly.com/adminpanel/diroctory_images/"+child.optString("cover_photo");
 
-                        homeList.add(new HomeList(id,heading,img));
+                        //homeList.add(new HomeList(id,heading,img));
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

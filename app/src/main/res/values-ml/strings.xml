@@ -26,13 +26,14 @@
         <item>Menu-5</item>
     </string-array>
 
-        <string-array name="main_menu">
-            <item>ഹോം</item>
-            <item>നാട്ടുവാർത്ത</item>
-            <item>ഡയറക്‌ടറി</item>
-            <!---<item>ഷോപ്പ്</item>-->
-            <item>ബസ്സ് സമയം</item>
-        </string-array>
+    <string-array name="main_menu">
+        <item>ഹോം</item>
+        <item>നാട്ടുവാർത്ത</item>
+        <item>കായികം</item>
+        <item>ഡയറക്‌ടറി</item>
+        <!---<item>ഷോപ്പ്</item>-->
+        <item>ബസ്സ് സമയം</item>
+    </string-array>
 
     <string-array name="dropDown">
         <item>നാട്ടുവാർത്ത</item>
@@ -53,20 +54,10 @@
     <string name="abtus">ഞങ്ങളേക്കുറിച്ച്</string>
     <string name="sting">സെറ്റിംഗ്സ്</string>
 
-    <string-array name="left_drawer">
-        <item>Login</item>
-        <item>Feature</item>
-        <item>App Language</item>
-        <item>Contact Us</item>
-        <item>Recommend the App</item>
-        <item>Copy the App url</item>
-        <item>Setting</item>
-    </string-array>
-
+    <string name="upload">News Upload</string>
     <string-array name="right_menu">
         <!--<item>Directory</item>-->
         <item>വാണിജ്യം</item>
-        <item>കായികം</item>
         <item>ആർട്ടിക്കിൾ</item>
         <item>ജ്യോതിഷശാസ്ത്രം</item>
         <item>മോട്ടോര്‍ വണ്ടി</item>

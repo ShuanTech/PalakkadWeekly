@@ -29,25 +29,16 @@
     <string-array name="main_menu">
         <item>HOME</item>
         <item>NATTU VARTHA</item>
+        <item>Sports</item>
         <item>DIRECTORY</item>
         <!--<item>SHOP</item>-->
         <item>BUS TIMINGS</item>
     </string-array>
 
-    <string-array name="left_drawer">
-        <item>Login</item>
-        <item>Feature</item>
-        <item>App Language</item>
-        <item>Contact Us</item>
-        <item>Recommend the App</item>
-        <item>Copy the App url</item>
-        <item>Setting</item>
-    </string-array>
 
     <string-array name="right_menu">
         <!--<item>Directory</item>-->
         <item>Bussiness</item>
-        <item>Sports</item>
         <item>Articles</item>
         <item>Astrology</item>
         <item>Automobiles</item>
@@ -92,6 +83,7 @@
     <string name="sting">Setting</string>
 
 
+    <string name="upload">News Upload</string>
     <string-array name="places">
         <item>Palakkad</item>
         <item>Pattambi</item>

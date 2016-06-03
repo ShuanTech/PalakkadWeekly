@@ -6,6 +6,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,13 +24,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.shuan.palakkadweekly.Activities.EditionActivity;
-import com.shuan.palakkadweekly.Activities.LoginActivity;
 import com.shuan.palakkadweekly.Main;
+import com.shuan.palakkadweekly.Parser.HttpUrlConnectionParser;
+import com.shuan.palakkadweekly.Parser.php;
 import com.shuan.palakkadweekly.R;
 import com.shuan.palakkadweekly.Utils.CircleImageView;
 import com.shuan.palakkadweekly.Utils.Common;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 /**
@@ -39,26 +50,22 @@ public class LeftNavigationDrawer extends Fragment implements View.OnClickListen
     public static final String KEY_USED_DRAWER = "used drawer";
     public static final String PREF = "pref";
     private Switch appLang;
-    private RelativeLayout col4;
     private RelativeLayout col5;
     private RelativeLayout col6;
-    private RelativeLayout col7;
-    private RelativeLayout col8;
     private RelativeLayout col9;
-    private Switch editionLang;
     private Common mApp;
     private Context mContext;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     public boolean mFromSavedInstance;
-    public TextView app,edt,ntf,fet,rec,cpy,abt,set,edition,edtn;
+    public TextView app, ntf, fet, rec, cpy, abt, set, edition, edtn;
     public boolean mUserDrawer;
+    private DisplayImageOptions options;
+    public String notifyUpdate;
 
     private Switch notify;
-    private Button signIn;
+    private Button upload;
     private TextView txt;
-    private RelativeLayout usr_layout;
-    private RelativeLayout usr_layout1;
     private CircleImageView image;
 
     public LeftNavigationDrawer() {
@@ -73,6 +80,7 @@ public class LeftNavigationDrawer extends Fragment implements View.OnClickListen
         if (bundle != null) {
             mFromSavedInstance = true;
         }
+
     }
 
     @Override
@@ -80,130 +88,112 @@ public class LeftNavigationDrawer extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
 
         View convertView = inflater.inflate(R.layout.fragment_left_navigation_drawer, container, false);
-        signIn = (Button) convertView.findViewById(R.id.sign_in);
+
         appLang = (Switch) convertView.findViewById(R.id.app_lang);
-        //editionLang = (Switch) convertView.findViewById(R.id.edition_lang);
         notify = (Switch) convertView.findViewById(R.id.notify);
-        col4 = (RelativeLayout) convertView.findViewById(R.id.col4);
         col5 = (RelativeLayout) convertView.findViewById(R.id.col5);
         col6 = (RelativeLayout) convertView.findViewById(R.id.col6);
-        col7 = (RelativeLayout) convertView.findViewById(R.id.col7);
-        col8 = (RelativeLayout) convertView.findViewById(R.id.col8);
-        col9= (RelativeLayout) convertView.findViewById(R.id.col9);
-        usr_layout = (RelativeLayout) convertView.findViewById(R.id.user_layout);
-        usr_layout1 = (RelativeLayout) convertView.findViewById(R.id.user_layout1);
+        col9 = (RelativeLayout) convertView.findViewById(R.id.col9);
         txt = (TextView) convertView.findViewById(R.id.usr_name);
         image = (CircleImageView) convertView.findViewById(R.id.user_img);
         notify.setChecked(true);
 
 
-        app= (TextView) convertView.findViewById(R.id.app);
-        //edt= (TextView) convertView.findViewById(R.id.edt);
-        ntf= (TextView) convertView.findViewById(R.id.ntf);
-        fet= (TextView) convertView.findViewById(R.id.fet);
-        rec= (TextView) convertView.findViewById(R.id.rec);
-        cpy= (TextView) convertView.findViewById(R.id.cpy);
-        abt= (TextView) convertView.findViewById(R.id.abt);
-        set= (TextView) convertView.findViewById(R.id.set);
-        edition= (TextView) convertView.findViewById(R.id.edition);
-        edtn= (TextView) convertView.findViewById(R.id.edtn);
+        app = (TextView) convertView.findViewById(R.id.app);
+        ntf = (TextView) convertView.findViewById(R.id.ntf);
+        rec = (TextView) convertView.findViewById(R.id.rec);
+        cpy = (TextView) convertView.findViewById(R.id.cpy);
+        edition = (TextView) convertView.findViewById(R.id.edition);
+        edtn = (TextView) convertView.findViewById(R.id.edtn);
 
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .showImageOnLoading(R.drawable.user)
+                .showImageForEmptyUri(R.drawable.user)
+                .showImageOnFail(R.drawable.user)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
 
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             app.setTextSize(14);
-           // edt.setTextSize(14);
             ntf.setTextSize(14);
-            fet.setTextSize(14);
             rec.setTextSize(14);
             cpy.setTextSize(14);
-            abt.setTextSize(14);
-            set.setTextSize(14);
             edition.setTextSize(14);
             edtn.setTextSize(14);
-        }else{
-
         }
 
-        if(mApp.getSharedPreferences().getString(Common.EDTITION,"").equalsIgnoreCase("")){
-
+        if (mApp.getSharedPreferences().getString(Common.EDTITION, "").equalsIgnoreCase("")) {
             edtn.setText(getActivity().getResources().getString(R.string.palakkad));
-
-        }else{
-            edtn.setText(mApp.getSharedPreferences().getString(Common.EDTITION,""));
+        } else {
+            edtn.setText(mApp.getSharedPreferences().getString(Common.EDTITION, ""));
         }
 
         if (mApp.getSharedPreferences().getString(Common.LANG, "") != null) {
             if (mApp.getSharedPreferences().getString(Common.LANG, "").equalsIgnoreCase("ml")) {
                 appLang.setChecked(true);
-                if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-                }else{
-                    //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                } else {
                     appLang.setText("Mal");
                 }
 
-
-
             } else {
                 appLang.setChecked(false);
-                if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-                }else{
-                    //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                } else {
                     appLang.setText("Eng");
                 }
-
-
             }
         }
 
-        /*if (mApp.getSharedPreferences().getString(Common.EDT_LANG, "") != null) {
-            if (mApp.getSharedPreferences().getString(Common.EDT_LANG, "").equalsIgnoreCase("ml")) {
-                editionLang.setChecked(false);
-
-                if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-
-                }else{
-                    //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                    editionLang.setText("Mal");
-                }
-
-
-
+        if (mApp.getSharedPreferences().getString(Common.NOTIFY, "") != null) {
+            if (mApp.getSharedPreferences().getString(Common.NOTIFY, "").equalsIgnoreCase("Y")) {
+                notify.setChecked(true);
             } else {
-                editionLang.setChecked(true);
-
-                if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                    //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-                }else{
-                    //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                    editionLang.setText("Eng");
-                }
-
-
+                notify.setChecked(false);
             }
-        }*/
-        if (mApp.getSharedPreferences().getBoolean(Common.Login, false) == true) {
-            usr_layout.setVisibility(View.VISIBLE);
-            usr_layout1.setVisibility(View.INVISIBLE);
-            txt.setText(mApp.getSharedPreferences().getString(Common.usrName, ""));
-            mApp.getPicasso().load("http://www.palakkadweekly.com/adminpanel/profile_pic/" + mApp.getSharedPreferences().getString(Common.usrImg, ""))
-                    .placeholder(R.drawable.user).into(image);
-        } else {
-            usr_layout.setVisibility(View.INVISIBLE);
-            usr_layout1.setVisibility(View.VISIBLE);
         }
 
-        signIn.setOnClickListener(this);
-        col4.setOnClickListener(this);
+
+        if (mApp.getSharedPreferences().getBoolean(Common.Login, false) == true) {
+
+            txt.setText(mApp.getSharedPreferences().getString(Common.usrName, ""));
+            ImageLoader.getInstance().displayImage(mApp.getSharedPreferences().getString(Common.usrImg, ""), image, options, new SimpleImageLoadingListener() {
+
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    super.onLoadingStarted(imageUri, view);
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    super.onLoadingFailed(imageUri, view, failReason);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    super.onLoadingCancelled(imageUri, view);
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    super.onLoadingComplete(imageUri, view, loadedImage);
+                }
+            }, new ImageLoadingProgressListener() {
+                @Override
+                public void onProgressUpdate(String s, View view, int i, int i1) {
+
+                }
+            });
+        }
+
         col5.setOnClickListener(this);
         col6.setOnClickListener(this);
-        col7.setOnClickListener(this);
-        col8.setOnClickListener(this);
         col9.setOnClickListener(this);
         appLang.setOnCheckedChangeListener(this);
-        //editionLang.setOnCheckedChangeListener(this);
+        notify.setOnCheckedChangeListener(this);
         return convertView;
     }
 
@@ -239,100 +229,105 @@ public class LeftNavigationDrawer extends Fragment implements View.OnClickListen
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        if (appLang.isChecked()) {
-            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
+        switch (buttonView.getId()) {
+            case R.id.app_lang:
+                if (appLang.isChecked()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    } else {
+                        appLang.setText("Mal");
+                    }
 
-            }else{
-                //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                appLang.setText("Mal");
-            }
+                    mApp.getSharedPreferences().edit().putString(Common.LANG, "ml").commit();
+                    Intent intent = new Intent(getActivity(), Main.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } else {
 
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    } else {
+                        appLang.setText("Eng");
+                    }
 
-
-            mApp.getSharedPreferences().edit().putString(Common.LANG, "ml").commit();
-            Intent intent = new Intent(getActivity(), Main.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        } else {
-
-            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-            }else{
-                //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                appLang.setText("Eng");
-            }
-
-            mApp.getSharedPreferences().edit().putString(Common.LANG, "en").commit();
-            Intent intent = new Intent(getActivity(), Main.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+                    mApp.getSharedPreferences().edit().putString(Common.LANG, "en").commit();
+                    Intent intent = new Intent(getActivity(), Main.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.notify:
+                if (notify.isChecked()) {
+                    //Toast.makeText(getActivity(),"checked",Toast.LENGTH_SHORT).show();
+                    notifyUpdate = "Y";
+                    new notifyUpdate().execute();
+                    mApp.getSharedPreferences().edit().putString(Common.NOTIFY, "Y").commit();
+                } else {
+                    notifyUpdate = "N";
+                    new notifyUpdate().execute();
+                    mApp.getSharedPreferences().edit().putString(Common.NOTIFY, "N").commit();
+                    //Toast.makeText(getActivity(),"not checked",Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
-       /* if (editionLang.isChecked()) {
-
-
-            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-            }else{
-                //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                editionLang.setText("Eng");
-            }
-            mApp.getSharedPreferences().edit().putString(Common.EDT_LANG, "en").commit();
-            getActivity().finish();
-            getActivity().startActivity(new Intent(getActivity(), Main.class));
-
-
-
-
-        } else {
-
-            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2){
-                //Toast.makeText(getActivity(),"true",Toast.LENGTH_SHORT).show();
-
-            }else{
-                //Toast.makeText(getActivity(),"false",Toast.LENGTH_SHORT).show();
-                editionLang.setText("Mal");
-            }
-
-
-            mApp.getSharedPreferences().edit().putString(Common.EDT_LANG, "ml").commit();
-            getActivity().finish();
-            getActivity().startActivity(new Intent(getActivity(), Main.class));
-        }*/
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                break;
-            case R.id.col4:
-                break;
             case R.id.col5:
-                //shareApp();
+                shareApp();
                 break;
             case R.id.col6:
-                //copyApp();
-                break;
-            case R.id.col7:
-                //startActivity(new Intent(getActivity(), AboutUsActivity.class));
-                break;
-            case R.id.col8:
+                copyApp();
                 break;
             case R.id.col9:
-                startActivity(new Intent(getActivity(),EditionActivity.class));
+                startActivity(new Intent(getActivity(), EditionActivity.class));
                 break;
         }
         mDrawerLayout.closeDrawers();
 
     }
 
+    public class notifyUpdate extends AsyncTask<String, String, String> {
+        HashMap<String, String> notifyData = new HashMap<String, String>();
+
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            notifyData.put("usr", mApp.getSharedPreferences().getString(Common.GMAILID, ""));
+            notifyData.put("notify", notifyUpdate);
+
+            try {
+                JSONObject json = HttpUrlConnectionParser.makeHttpUrlConnection(php.notifyUpdate, notifyData);
+                int succ = json.getInt("success");
+
+                if (succ == 0) {
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (notifyUpdate.equalsIgnoreCase("N")) {
+                                Toast.makeText(getActivity(), "Notification turned OFF Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Notification turned ON Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
+            }
+
+
+            return null;
+        }
+    }
+
     private void copyApp() {
-        ClipboardManager clipboard= (ClipboardManager) getActivity().getSystemService(getActivity().CLIPBOARD_SERVICE);
-        ClipData clip=ClipData.newPlainText("Mannarkkad Weekly",getActivity().getString(R.string.app_url));
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(getActivity().CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Palakkad Weekly", getActivity().getString(R.string.app_url));
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(getActivity(),"App Url Copied",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "App Url Copied", Toast.LENGTH_SHORT).show();
     }
 
     private void shareApp() {

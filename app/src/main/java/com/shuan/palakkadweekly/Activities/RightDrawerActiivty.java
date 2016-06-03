@@ -119,7 +119,7 @@ public class RightDrawerActiivty extends AppCompatActivity {
 
                             }*/
                             img = "http://www.palakkadweekly.com/adminpanel/obituries/" + child.optString("photo");
-                            rightDrawerList.add(new HomeList(id,heading,img));
+                            //rightDrawerList.add(new HomeList(id,heading,img));
                         }else {
 
                             String id = child.optString("id");
@@ -142,7 +142,7 @@ public class RightDrawerActiivty extends AppCompatActivity {
                             } else {
                                 img = "http://www.palakkadweekly.com/adminpanel/news_photos/" + child.optString("image");
                             }
-                            rightDrawerList.add(new HomeList(id,heading,img));
+                           // rightDrawerList.add(new HomeList(id,heading,img));
                         }
 
                     }

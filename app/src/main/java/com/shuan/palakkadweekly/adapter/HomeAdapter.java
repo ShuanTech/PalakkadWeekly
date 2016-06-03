@@ -33,8 +33,8 @@ public class HomeAdapter extends BaseAdapter {
     public HomeAdapter(Context context, ArrayList<HomeList> homeList) {
         this.context = context;
         this.homeList = homeList;
-        mApp= (Common) context.getApplicationContext();
-        inflater=LayoutInflater.from(context);
+        mApp = (Common) context.getApplicationContext();
+        inflater = LayoutInflater.from(context);
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.load1)
                 .showImageForEmptyUri(R.drawable.no_image)
@@ -63,17 +63,23 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView=inflater.inflate(R.layout.home_list_item,null);
-        TextView id= (TextView) convertView.findViewById(R.id.nattu_vartha_id);
-        TextView heading = (TextView)convertView.findViewById(R.id.title);
-        ImageView imageview = (ImageView)convertView.findViewById(R.id.small_content_img);
-        HomeList homelist = (HomeList)homeList.get(position);
-        if (mApp.getSharedPreferences().getString("edt_lang", "").equalsIgnoreCase("ml"))
-        {
+
+        if (position == 0) {
+            convertView = inflater.inflate(R.layout.big_list_item, null);
+        } else {
+            convertView = inflater.inflate(R.layout.home_list_item, null);
+        }
+
+        TextView id = (TextView) convertView.findViewById(R.id.nattu_vartha_id);
+        TextView heading = (TextView) convertView.findViewById(R.id.title);
+        ImageView imageview = (ImageView) convertView.findViewById(R.id.small_content_img);
+
+        HomeList homelist = (HomeList) homeList.get(position);
+
+        if (mApp.getSharedPreferences().getString("edt_lang", "").equalsIgnoreCase("ml")) {
             heading.setTextSize(12);
             heading.setText(homelist.getHeading());
-        } else
-        {
+        } else {
             heading.setTextSize(14);
             heading.setText(homelist.getHeading());
         }
@@ -82,13 +88,12 @@ public class HomeAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(homelist.getImg(), imageview, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                // holder.progressBar.setProgress(0);
-                //holder.progressBar.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                //holder.progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -102,9 +107,7 @@ public class HomeAdapter extends BaseAdapter {
 
             }
         });
-        /*mApp.getPicasso().load(homelist.getImg())
-                .placeholder(R.drawable.no_image)
-                .into(imageview);*/
+
 
         return convertView;
     }

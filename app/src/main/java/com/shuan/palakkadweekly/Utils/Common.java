@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -42,6 +44,8 @@ public class Common extends Application {
     public static final String Tag = "tag";
     public static final String EDTITION = "edtition";
     public static final String GCMID = "gcm_id";
+    public static final String GMAILID = "gmail";
+    public static final String PUSH_NOTIFICATION = "push notification";
     private Context mContext;
     private DisplayImageOptions mDisplayImageOptions;
     private ImageLoader mImageLoader;
@@ -52,6 +56,7 @@ public class Common extends Application {
     private static final String GCM_SENDER_ID = "339543866097";
     private GoogleCloudMessaging gcm;
     private static final int ACTION_PLAY_SERVICES_DIALOG = 100;
+    public static final String Version = "version";
     private String gcmRegId;
     private HashMap<String, String> saveData;
     private HttpUrlConnectionParser parser = new HttpUrlConnectionParser();
@@ -66,7 +71,10 @@ public class Common extends Application {
     public static final String usrPhone = "ph";
     public static final String usrPlce = "place";
     public static final String usrTotNews = "total_news";
+    public static final String NOTIFY = "notify";
 
+    PackageInfo info = null;
+    private String update = null;
 
     @Override
     public void onCreate() {
@@ -94,6 +102,7 @@ public class Common extends Application {
 
             for (Account account : accounts) {
                 gmailId = account.name;
+                getSharedPreferences().edit().putString(Common.GMAILID, gmailId).commit();
             }
 
         } catch (Exception e) {
@@ -113,13 +122,57 @@ public class Common extends Application {
         //}
         Log.d("Key", getSharedPreferences().getString(Common.GCMID, ""));
 
+        PackageManager manager = mContext.getPackageManager();
+        try {
+            info = manager.getPackageInfo(
+                    mContext.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        new chkVersion().execute();
         //Init DisplayImageOptions.
         //initDisplayImageOptions();
 
     }
 
-    public class GCMReg extends AsyncTask<Void, Void, String> {
+    public class chkVersion extends AsyncTask<String, String, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            HashMap<String, String> verData = new HashMap<String, String>();
+            verData.put("ver", info.versionName);
+
+
+            try {
+                JSONObject json = parser.makeHttpUrlConnection(php.chkVer, verData);
+
+                int succ = json.getInt("success");
+
+                if (succ == 0) {
+                    update = "false";
+                } else {
+                    update = "true";
+                }
+
+            } catch (Exception e) {
+            }
+
+            return update;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                getSharedPreferences().edit().putString(Common.Version, update).commit();
+
+            }
+        }
+    }
+
+    public class GCMReg extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... params) {
@@ -179,7 +232,7 @@ public class Common extends Application {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s != null) {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+
 
             }
         }
@@ -204,34 +257,6 @@ public class Common extends Application {
 
     }
 
-    /**
-     * Initializes a DisplayImageOptions object. The drawable shown
-     * while an image is loading is based on the current theme.
-     */
-    /*public void initDisplayImageOptions() {
-
-        //Create a set of options to optimize the bitmap memory usage.
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        options.inJustDecodeBounds = false;
-        options.inPurgeable = true;
-
-        int emptyColorPatch = UIElementsHelper.getEmptyColorPatch(this);
-        mDisplayImageOptions = null;
-        mDisplayImageOptions = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(emptyColorPatch)
-                .showImageOnFail(emptyColorPatch)
-                .showImageOnLoading(emptyColorPatch)
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .decodingOptions(options)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-                .bitmapConfig(Bitmap.Config.ARGB_4444)
-                .delayBeforeLoading(400)
-                .displayer(new FadeInBitmapDisplayer(200))
-                .build();
-
-    }*/
 
     /*
     * Returns the status bar height for the current layout configuration.

@@ -82,7 +82,7 @@
                         fancy:met_singleLineEllipsis="true" />
 
                     <com.shuan.palakkadweekly.edittext.MaterialEditText
-                        android:id="@+id/password"
+                        android:id="@+id/usr_ph"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Mobile Number"
